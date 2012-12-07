@@ -8,9 +8,9 @@ Gem::Specification.new do |gem|
   gem.version       = Redis::Script::VERSION
   gem.authors       = ["Tal Atlas"]
   gem.email         = ["me@tal.by"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{A library for loading and setting scripts into redis}
+  gem.summary       = %q{A library for loading and setting scripts into redis}
+  gem.homepage      = "https://github.com/tal/redis-script"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
