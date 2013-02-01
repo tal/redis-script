@@ -11,6 +11,13 @@ module Redis::Script
       @commands
     end
 
+    def after_run name, &blk
+      command = @commands.find {|c| c.name == name}
+      if command
+        command.after_run(&blk)
+      end
+    end
+
     def method_missing name, *args
       lua = args.pop if args.last.is_a?(String)
       if args.first.is_a?(Integer)

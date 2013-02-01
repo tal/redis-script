@@ -6,6 +6,12 @@ module Redis::Script
       @name = name
       @keys = opts[:keys]||0
       @lua  = opts[:lua]
+
+      @processors = []
+
+      if opts[:after_run]
+        @processors << opts[:after_run]
+      end
     end
 
     def lua *args
@@ -25,7 +31,21 @@ module Redis::Script
       keys = []
       @keys.times {keys << args.shift}
 
-      redis.evalsha(sha(redis),keys,args)
+      val = redis.evalsha(sha(redis),keys,args)
+      process_return(val)
+    end
+
+    def after_run &blk
+      @processors << blk
+    end
+
+    private
+
+    def process_return(val)
+      @processors.each do |proc|
+        val = proc.call(val) if proc
+      end
+      val
     end
 
   end
